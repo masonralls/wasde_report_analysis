@@ -1,8 +1,243 @@
-# WASDE Report Analysis
+# 🌾 USDA WASDE Commodity Forecasting & Time Series Analysis
 
-Exploratory analysis of USDA World Agricultural Supply and Demand Estimates (WASDE) report data, covering U.S. production and estimate trends across multiple commodities.
+## Overview
 
-## Project Structure
+This project explores the **USDA World Agricultural Supply and Demand Estimates (WASDE)** dataset with the goal of building machine learning models capable of forecasting agricultural commodity statistics using historical USDA reports.
+
+The project begins with extensive **Exploratory Data Analysis (EDA)** and data quality assessment before progressing toward feature engineering, time series modeling, and predictive analytics.
+
+Current work is focused on **United States commodity data**, with reproducible analysis pipelines designed to scale to additional commodities and countries.
+
+---
+
+## Objectives
+
+- Understand the structure and quality of the WASDE dataset.
+- Identify commodities actively traded on open markets.
+- Create a reproducible EDA pipeline for each commodity and attribute.
+- Investigate revision patterns within USDA reports.
+- Analyze temporal behavior of agricultural variables.
+- Engineer features for machine learning models.
+- Forecast future commodity values using time series methods.
+
+---
+
+## Dataset
+
+**Source:** USDA World Agricultural Supply and Demand Estimates (WASDE)
+
+Current scope:
+
+- Country: United States
+- Multiple commodities
+- Multiple agricultural attributes
+- Historical monthly releases
+- Revision history preserved
+
+Example attributes include:
+
+- Production
+- Yield
+- Exports
+- Imports
+- Beginning Stocks
+- Ending Stocks
+- Domestic Use
+- Feed Use
+- Food Use
+- Seed Use
+- Crush
+- Price
+
+---
+
+## Project Workflow
+
+```
+Raw WASDE Data
+        │
+        ▼
+Data Cleaning
+        │
+        ▼
+Feature Selection
+        │
+        ▼
+Exploratory Data Analysis
+        │
+        ▼
+Commodity-Specific Analysis
+        │
+        ▼
+Feature Engineering
+        │
+        ▼
+Time Series Modeling
+        │
+        ▼
+Forecasting
+```
+
+---
+
+## Exploratory Data Analysis
+
+Current EDA includes:
+
+### Dataset Summary
+
+- Dataset dimensions
+- Data types
+- Missing value analysis
+- Descriptive statistics
+
+### Temporal Analysis
+
+- Monthly observations
+- Historical trends
+- Revision sequences
+- Release dates
+
+### Distribution Analysis
+
+- Histograms
+- Boxplots
+- Outlier detection
+
+### Relationship Analysis
+
+- Commodity comparisons
+
+---
+
+## Reproducible EDA Pipeline
+
+A reusable Python function was developed that performs a complete exploratory analysis for any commodity/attribute combination.
+
+The pipeline automatically generates:
+
+- Dataset summary
+- Missing value report
+- Summary statistics
+- Distribution plots
+- Time series visualization
+- Outlier analysis
+- Revision analysis
+- Correlation analysis (where applicable)
+
+This allows identical analyses to be generated for every commodity with minimal code duplication.
+
+Example usage:
+
+```python
+run_commodity_attribute_eda(
+    df=df_us,
+    commodity="Corn",
+    attribute="Production",
+    report_title="U.S. Feed Grain and Corn Supply and Use"
+)
+```
+
+---
+
+## Current Findings
+
+### Revision Sequences
+
+One of the most important discoveries so far is that many observations correspond to **multiple revisions** of the same market year.
+
+This explains why naïve time series plots appear to "jump" unexpectedly despite representing the same reporting period.
+
+Future forecasting models will account for these revisions rather than treating them as independent observations.
+
+---
+
+### Commodity Differences
+
+Different commodities exhibit dramatically different:
+
+- Units
+- Magnitudes
+- Variability
+- Seasonal behavior
+
+These differences suggest that commodity-specific preprocessing and modeling may outperform a single global forecasting model.
+
+---
+
+### Open Market Commodities
+
+Current focus is on commodities commonly traded on public markets, including:
+
+- Corn
+- Soybeans
+- Wheat
+- Cotton
+- Rice
+- Oats
+- Barley
+- Sorghum
+
+Additional commodities may be analyzed depending on project scope.
+
+---
+
+## Technologies Used
+
+- Python
+- Pandas
+- NumPy
+- Matplotlib
+- Seaborn
+- Jupyter Notebook
+
+Planned additions:
+
+- Scikit-learn
+- XGBoost
+- Statsmodels
+- LightGBM (optional)
+
+---
+
+## Planned Feature Engineering
+
+Potential features include:
+
+- Lag variables
+- Rolling averages
+- Rolling standard deviations
+- Month
+- Year
+- Market year
+- Revision number
+- Time since initial report
+- Commodity encoding
+
+---
+
+## Planned Machine Learning Models
+
+Traditional time series:
+
+- ARIMA
+- SARIMA
+- Exponential Smoothing
+
+Machine learning:
+
+- Random Forest
+- XGBoost
+- Gradient Boosting
+
+Potential deep learning:
+
+- LSTM
+- Temporal Convolutional Networks
+
+---
+
+## Repository Structure
 
 ```
 wasde_analysis/
@@ -11,65 +246,30 @@ wasde_analysis/
 │   ├── raw/                # Original WASDE report exports
 │   └── processed/          # Cleaned, analysis-ready CSVs
 ├── notebooks/
-│   └── eda/                # Exploratory data analysis notebooks
+│   └── wasde_eda/                # Exploratory data analysis notebooks
 ├── .gitignore
 ├── requirements.txt
 └── README.md
 ```
 
-## Data
+---
 
-Data is sourced from public USDA WASDE reports and covers estimates for the following commodities:
+## Future Work
 
-- Corn
-- Cotton
-- Wheat (HRS, HRW)
-- Oats
-- Rice
-- Soybeans (production, meal, oil)
-- Sugar
+- Complete EDA for all major traded commodities.
+- Validate data consistency across report titles.
+- Engineer forecasting features.
+- Compare statistical and machine learning forecasting methods.
+- Evaluate forecasting performance using rolling-origin validation.
+- Develop an automated reporting pipeline for commodity analyses.
 
-Processed datasets include fields such as `ReleaseDate`, `Value`, `Unit`, along with commodity- and attribute-specific identifiers used to distinguish between different WASDE estimate series.
+---
 
-## Setup
+## Author
 
-**1. Clone the repository**
-```bash
-git clone https://github.com/masonralls/wasde_report_analysis.git
-cd wasde_analysis
-```
+**Mason Ralls**
 
-**2. Create and activate a virtual environment**
-```bash
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1      # Windows PowerShell
-```
+B.S. Applied Mathematics  
+Computational Statistics & Data Science
 
-**3. Install dependencies**
-```bash
-pip install -r requirements.txt
-```
-
-## Progress So Far
-
-- [x] Initialized Git repository and connected to GitHub remote
-- [x] Set up `.gitignore` to exclude environment files, notebook checkpoints, and cache
-- [x] Created and activated a Python virtual environment (`.venv`)
-- [x] Established `requirements.txt` for reproducible environment setup
-- [x] Loaded and organized raw commodity CSVs (corn, cotton, wheat, oats, rice, soybeans, sugar) into `data/`
-- [x] Built initial EDA notebook (`wasde_eda.ipynb`) to explore U.S. production and estimate data
-- [x] Cleaned and converted `ReleaseDate` fields to proper datetime format for time series plotting
-- [x] Generated full time series plots of estimates by commodity and attribute over time
-
-## Next Steps
-
-- [ ] Reimport and refresh raw data files from local source
-- [ ] Expand EDA to compare estimates across commodities
-- [ ] Add year-over-year and month-over-month comparison views
-- [ ] Document data source and last-updated date for each dataset
-- [ ] Explore forecasting or trend analysis on selected commodities
-
-## Notes
-
-- Public WASDE data is committed directly to the repository for reproducibility.
-- Large or non-public files remain excluded via `.gitignore`.
+This repository documents ongoing work toward building reproducible machine learning workflows for agricultural commodity forecasting using USDA WASDE data.
