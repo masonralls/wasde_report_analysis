@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(.venv/Scripts/python.exe -c \"import matplotlib, seaborn, jupyter, nbconvert\")",
+      "Bash(.venv/Scripts/python.exe -c ' *)"
+    ]
+  }
+}
